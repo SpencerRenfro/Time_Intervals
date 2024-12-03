@@ -93,7 +93,54 @@ public class Project4 extends Application {
             String interval2Start = timeInterval2Field1.getText();
             String interval2End = timeInterval2Field2.getText();
 
+//            String[] interval1StartHoursMinutes = interval1Start.split(":");
+//            String[] interval1EndHoursMinutes = interval2Start.split(":");
+//            String[] interval2StartHoursMinutes = interval1End.split(":");
+//            String[] interval2EndHoursMinutes = interval2End.split(":");
+
+            // Split by colon or whitespace
+            String[] parts = interval1Start.split("[:\\s]+");
+            // parts[0] is the hour
+            // parts[1] is the minute
+            // parts[2] is the AM/PM
+            String interval1StartHours = parts[0];
+            String interval1StartMinutes = parts[1];
+            String interval1StartMeridian = parts[2];
+            String interval1EndHours = parts[0];
+            String interval1EndMinutes = parts[1];
+            String interval1EndMeridian = parts[2];
+
+            Time time1Start = new Time(interval1StartHours, interval1StartMinutes, interval1StartMeridian);
+            Time time1End = new Time(interval1End);
+
+
+            // Repeat for interval1End, interval2Start, interval2End
+            // Convert to 24-hour
+            // Compare intervals
+            // Display result
+
+
+
+
+
+            //print statements for testing:
+            System.out.println(
+                    "time1 Start:" + interval1Start + " time1 End: " + interval1End + "\n" +
+                            "time2 Start:" + interval2Start + " time2 End:" + interval2End
+            );
+
+
+
             // Compare intervals logic
+
+//            try{
+//                int interval1StartHours = Integer.parseInt(interval1StartHoursMinutes[0]);
+//                int interval1StartMinutes = Integer.parseInt(interval1StartHoursMinutes[1]);
+//                int interval1EndHours = Integer.parseInt(interval1EndHoursMinutes[0]);
+//                int interval1EndMinutes = Integer.parseInt(interval1EndHoursMinutes[1]);
+//            } catch (NumberFormatException e) {
+//                displayField.setText("Please enter valid integers");
+//            }
             // Placeholder: Implement actual comparison logic
             displayField.setText("Comparison result: Placeholder");
         });
@@ -126,3 +173,52 @@ public class Project4 extends Application {
         launch(args);
     }
 }
+
+/*
+* The fourth class Project4 should implement a GUI interface that contains two buttons. The first
+button CompareIntervals should compare the two intervals and output one of the following
+messages depending upon how the intervals compare:
+ Interval 1 is a sub-interval of interval 2
+ Interval 2 is a sub-interval of interval 1
+ The intervals overlap
+ The intervals are disjoint
+Shown below is an example of the output when the CompareIntervals button is clicked:
+The second button CheckTime should check whether the time is within the intervals and output
+one of the following messages depending upon which intervals it is within:
+ Both intervals contains the time HH:MM AM
+ Only interval 1 contains the time HH:MM AM
+ Only interval 2 contains the time HH:MM AM
+ Neither interval contains the time HH:MM AM
+Shown below is an example of the output when the CheckTime button is clicked:
+* */
+/*
+*
+*
+            try{
+                //parse the strings to integers
+                int time1Start = Integer.parseInt(interval1Start);
+                int time1End = Integer.parseInt(interval1End);
+                int time2Start = Integer.parseInt(interval2Start);
+                int time2End = Integer.parseInt(interval2End);
+
+                //check if the intervals overlap
+                if(time1Start < time2End && time1End > time2Start){
+                    displayField.setText("The intervals overlap");
+                }
+                //check if interval 1 is a sub-interval of interval 2
+                else if(time1Start >= time2Start && time1End <= time2End){
+                    displayField.setText("Interval 1 is a sub-interval of interval 2");
+                }
+                //check if interval 2 is a sub-interval of interval 1
+                else if(time2Start >= time1Start && time2End <= time1End){
+                    displayField.setText("Interval 2 is a sub-interval of interval 1");
+                }
+                //check if the intervals are disjoint
+                else{
+                    displayField.setText("The intervals are disjoint");
+                }
+            }
+            catch(NumberFormatException e){
+                displayField.setText("Please enter valid integers");
+            }
+* */
