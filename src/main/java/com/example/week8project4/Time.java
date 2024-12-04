@@ -15,6 +15,7 @@ public class Time {
     // hours, minutes, meridian and constructs a Time object
     public Time(int hours, int minutes, String meridian) throws InvalidTime {
         if (inputValidation(hours, minutes, meridian)) {
+            System.out.println("Creating time object for int variables");
             this.hours = hours;
             this.minutes = minutes;
             this.meridian = meridian;
@@ -27,6 +28,7 @@ public class Time {
         // the parameter for this constructor should take use the format:
         //HH:MM AM and constructs a Time object
         if (inputValidation(stringFormatTime)) {
+            System.out.println("Creating time object for string input");
             String[] timeArray = stringFormatTime.split(":");
             this.hours = Integer.parseInt(timeArray[0]);
             this.minutes = Integer.parseInt(timeArray[1]);
@@ -89,8 +91,7 @@ fail, an exception InvalidTime should be thrown that includes the reason.
     //HH:MM AM
     @Override
     public String toString() {
-        String stringFormat = String.valueOf(hours) + ":" + String.valueOf(minutes) + " " + meridian;
-        return stringFormat;
+        return String.valueOf(hours) + ":" + String.valueOf(minutes) + " " + meridian;
     }
 }
 
