@@ -17,4 +17,29 @@ contain the following public methods:
 */
 public class Interval {
 
+    private final Comparable start;
+    private final Comparable end;
+
+
+    public Interval(Comparable start, Comparable end) throws InvalidTime {
+        if(start.compareTo(end) > 0) {
+            throw new InvalidTime("Start must be less than or equal to end.");
+        }
+        this.start = start;
+        this.end = end;
+    }
+
+
+
+    public boolean within(Comparable obj) {
+        return obj.compareTo(start) >= 0 && obj.compareTo(end) <= 0;
+    }
+
+    public boolean subinterval(Interval interval) {
+        return interval.start.compareTo(start) >= 0 && interval.end.compareTo(end) <= 0;
+    }
+
+    public boolean overlaps(Interval interval) {
+        return interval.start.compareTo(end) <= 0 && interval.end.compareTo(start) >= 0;
+    }
 }
