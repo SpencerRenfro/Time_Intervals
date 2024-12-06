@@ -16,4 +16,5 @@ contain the following public methods:
     interval parameter overlaps the interval on which the method is invoked
 */
 public class Interval {
+
 }
