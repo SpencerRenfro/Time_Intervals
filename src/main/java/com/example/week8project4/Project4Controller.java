@@ -1,3 +1,9 @@
+/*
+Spencer Renfro
+12-7-2024
+Project 4: Time Interval Checker
+ */
+
 package com.example.week8project4;
 
 import javafx.event.ActionEvent;
@@ -43,12 +49,15 @@ public class Project4Controller {
     }
 
     private void validateInput(Time start1, Time start2, Time end1, Time end2) throws InvalidTime {
+
         if (start1.compareTo(end1) >= 0) {
-            throw new InvalidTime("Error in Interval 1: Start time must be before end time.");
+            throw new InvalidTime("In Interval 1: Start time must be before end time.");
         }
         if (start2.compareTo(end2) >= 0) {
-            throw new InvalidTime("Error in Interval 2: Start time must be before end time.");
+            throw new InvalidTime("In Interval 2: Start time must be before end time.");
         }
+
+
     }
 
     @FXML
@@ -89,13 +98,24 @@ public class Project4Controller {
 
             // Check if time is within intervals
             String result;
-            if (timeToCheck.compareTo(times[0]) >= 0 && timeToCheck.compareTo(times[2]) <= 0) {
-                result = "The time is within Interval 1";
-            } else if (timeToCheck.compareTo(times[1]) >= 0 && timeToCheck.compareTo(times[3]) <= 0) {
-                result = "The time is within Interval 2";
+            boolean inInterval1 = timeToCheck.compareTo(times[0]) >= 0 && timeToCheck.compareTo(times[2]) <= 0;
+            boolean inInterval2 = timeToCheck.compareTo(times[1]) >= 0 && timeToCheck.compareTo(times[3]) <= 0;
+
+            if (inInterval1 && inInterval2) {
+                result = "Both intervals contain the time " + timeToCheck.toString();
+            } else if (inInterval1) {
+                result = "Only interval 1 contains the time " + timeToCheck.toString();
+            } else if (inInterval2) {
+                result = "Only interval 2 contains the time " + timeToCheck.toString();
             } else {
-                result = "The time is not within either interval";
+                result = "Neither interval contains the time " + timeToCheck.toString();
             }
+            /*
+            *
+            *  Both intervals contains the time HH:MM AM
+ Only interval 1 contains the time HH:MM AM
+ Only interval 2 contains the time HH:MM AM
+ Neither interval contains the time HH:MM AM*/
 
             resultLabel.setText(result);
             System.out.println(result);

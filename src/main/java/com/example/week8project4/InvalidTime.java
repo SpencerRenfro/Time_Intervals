@@ -1,6 +1,7 @@
 /*
-Spencer Renfro Project4: Time Interval Checker
-Date: 12-5-2024
+Spencer Renfro
+12-7-2024
+Project 4: Time Interval Checker
  */
 package com.example.week8project4;
 
