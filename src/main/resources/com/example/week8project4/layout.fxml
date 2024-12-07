@@ -38,7 +38,7 @@
         <TextField  fx:id="timeIntervalTextFieldEnd2"  GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.vgrow="NEVER" alignment="CENTER"  />
         <Button onAction="#handleCompareIntervals" mnemonicParsing="false" prefHeight="25.0" prefWidth="622.0" text="Compare Intervals" GridPane.columnSpan="3" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.vgrow="NEVER" />
         <Label text="Time to Check" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="4" GridPane.vgrow="NEVER" alignment="CENTER" />
-        <TextField fx:id="timeIntervalTextField" prefHeight="25.0" prefWidth="311.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+        <TextField fx:id="timeIntervalTextField" prefHeight="25.0" prefWidth="311.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" alignment="CENTER" />
         <Button onAction="#handleCheckTime" mnemonicParsing="false" prefHeight="25.0" prefWidth="622.0" text="Check Time" GridPane.columnSpan="3" GridPane.hgrow="NEVER" GridPane.rowIndex="5" GridPane.vgrow="NEVER" />
         <TextField fx:id="resultLabel" editable="false" prefHeight="25.0" prefWidth="311.0" GridPane.columnSpan="3" GridPane.hgrow="NEVER" GridPane.rowIndex="6" GridPane.vgrow="NEVER" />
     </children>
