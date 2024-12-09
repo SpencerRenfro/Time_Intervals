@@ -29,51 +29,65 @@ public class Project4Controller {
     @FXML
     private TextField resultLabel;
 
-    private Time[] getTimeIntervals(boolean timeIntervalFields, boolean timeToCheckField) throws InvalidTime {
-        Time start1 = null, start2 = null, end1 = null, end2 = null;
+    private int parseTimeToMinutes(String timeText) throws InvalidTime {
+        timeText = timeText.trim().toLowerCase();
+        String[] parts = timeText.split("[:\\s]+");
 
-        if (timeIntervalFields) {
-            start1 = new Time(timeIntervalTextFieldStart1.getText());
-            start2 = new Time(timeIntervalTextFieldStart2.getText());
-            end1 = new Time(timeIntervalTextFieldEnd1.getText());
-            end2 = new Time(timeIntervalTextFieldEnd2.getText());
-            return new Time[]{start1, start2, end1, end2};
+        if (parts.length != 3) {
+            throw new InvalidTime("Invalid time format. Use HH:MM:AM.");
         }
+        try {
+            int hours = Integer.parseInt(parts[0]);
+            int minutes = Integer.parseInt(parts[1]);
+            String meridian = parts[2];
 
-        if (timeToCheckField) {
-            Time timeToCheck = new Time(timeIntervalTextField.getText());
-            return new Time[]{timeToCheck};
+            // Validate hours and minutes
+            if (hours < 1 || hours > 12) {
+                throw new InvalidTime("Hours must be between 1 and 12 for AM/PM format.");
+            }
+            if (minutes < 0 || minutes > 59) {
+                throw new InvalidTime("Minutes must be between 0 and 59.");
+            }
+            if (!meridian.equals("am") && !meridian.equals("pm")) {
+                throw new InvalidTime("Meridian must be 'AM' or 'PM'.");
+            }
+            // Convert hours to 24-hour format
+            if (meridian.equals("pm") && hours != 12) {
+                hours += 12; // Add 12 for PM hours (except 12 PM, which remains the same)
+            } else if (meridian.equals("am") && hours == 12) {
+                hours = 0; // 12 AM is midnight
+            }
+
+            System.out.println("total minutes: " + (hours * 60 + minutes));
+            return hours * 60 + minutes;
+        } catch (NumberFormatException e) {
+            throw new InvalidTime("Invalid time values. Use numbers for hours and minutes.");
         }
-
-        throw new InvalidTime("No valid fields provided for parsing.");
-    }
-
-    private void validateInput(Time start1, Time start2, Time end1, Time end2) throws InvalidTime {
-
-        if (start1.compareTo(end1) >= 0) {
-            throw new InvalidTime("In Interval 1: Start time must be before end time.");
-        }
-        if (start2.compareTo(end2) >= 0) {
-            throw new InvalidTime("In Interval 2: Start time must be before end time.");
-        }
-
-
     }
 
     @FXML
     private void handleCompareIntervals(ActionEvent event) {
         try {
-            // Get and validate time intervals
-            Time[] times = getTimeIntervals(true, false);
-            validateInput(times[0], times[1], times[2], times[3]);
+            // Parse input times
+            int start1 = parseTimeToMinutes(timeIntervalTextFieldStart1.getText());
+            int end1 = parseTimeToMinutes(timeIntervalTextFieldEnd1.getText());
+            int start2 = parseTimeToMinutes(timeIntervalTextFieldStart2.getText());
+            int end2 = parseTimeToMinutes(timeIntervalTextFieldEnd2.getText());
 
-            // Compare intervals
+
+
+            // Create Interval objects
+            Interval interval1 = new Interval(start1, end1);
+            Interval interval2 = new Interval(start2, end2);
+
             String result;
-            if (times[0].compareTo(times[1]) >= 0 && times[2].compareTo(times[3]) <= 0) {
-                result = "Interval 1 is a sub-interval of Interval 2";
-            } else if (times[1].compareTo(times[0]) >= 0 && times[3].compareTo(times[2]) <= 0) {
-                result = "Interval 2 is a sub-interval of Interval 1";
-            } else if (times[0].compareTo(times[3]) <= 0 && times[2].compareTo(times[1]) >= 0) {
+            // Compare intervals using Interval methods
+
+            if (interval1.subinterval(interval2)) {
+                result = "Interval 1 is a subinterval of Interval 2";
+            } else if (interval2.subinterval(interval1)) {
+                result = "Interval 2 is a subinterval of Interval 1";
+            } else if (interval1.overlaps(interval2)) {
                 result = "The intervals overlap";
             } else {
                 result = "The intervals are disjoint";
@@ -90,32 +104,31 @@ public class Project4Controller {
     @FXML
     private void handleCheckTime(ActionEvent event) {
         try {
-            // Get time intervals and time to check
-            Time[] times = getTimeIntervals(true, true);
-            validateInput(times[0], times[1], times[2], times[3]);
+            // Parse input times
+            int start1 = parseTimeToMinutes(timeIntervalTextFieldStart1.getText());
+            int end1 = parseTimeToMinutes(timeIntervalTextFieldEnd1.getText());
+            int start2 = parseTimeToMinutes(timeIntervalTextFieldStart2.getText());
+            int end2 = parseTimeToMinutes(timeIntervalTextFieldEnd2.getText());
+            int timeToCheck = parseTimeToMinutes(timeIntervalTextField.getText());
 
-            Time timeToCheck = new Time(timeIntervalTextField.getText());
+            // Create Interval objects
+            Interval interval1 = new Interval(start1, end1);
+            Interval interval2 = new Interval(start2, end2);
 
-            // Check if time is within intervals
+            // Check if the time is within the intervals
             String result;
-            boolean inInterval1 = timeToCheck.compareTo(times[0]) >= 0 && timeToCheck.compareTo(times[2]) <= 0;
-            boolean inInterval2 = timeToCheck.compareTo(times[1]) >= 0 && timeToCheck.compareTo(times[3]) <= 0;
+            boolean inInterval1 = interval1.within(timeToCheck);
+            boolean inInterval2 = interval2.within(timeToCheck);
 
             if (inInterval1 && inInterval2) {
-                result = "Both intervals contain the time " + timeToCheck.toString();
+                result = "Both intervals contain the time.";
             } else if (inInterval1) {
-                result = "Only interval 1 contains the time " + timeToCheck.toString();
+                result = "Only interval 1 contains the time.";
             } else if (inInterval2) {
-                result = "Only interval 2 contains the time " + timeToCheck.toString();
+                result = "Only interval 2 contains the time.";
             } else {
-                result = "Neither interval contains the time " + timeToCheck.toString();
+                result = "Neither interval contains the time.";
             }
-            /*
-            *
-            *  Both intervals contains the time HH:MM AM
- Only interval 1 contains the time HH:MM AM
- Only interval 2 contains the time HH:MM AM
- Neither interval contains the time HH:MM AM*/
 
             resultLabel.setText(result);
             System.out.println(result);
@@ -125,3 +138,6 @@ public class Project4Controller {
         }
     }
 }
+
+
+
